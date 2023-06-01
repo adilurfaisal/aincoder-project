@@ -99,6 +99,7 @@
                 <q-td key="id" :props="props">
                   <q-btn flat round color="primary" size="sm" @click="editRow(props.row)" icon="edit" />
                   <q-btn flat round color="primary" size="sm" icon="delete" />
+                  <q-btn @click="copyLink('sc/' + props.row.id)" flat round color="primary" size="sm" icon="link" />
                 </q-td>
               </q-tr>
             </template>
@@ -112,6 +113,7 @@
 
 <script>
 import { defineComponent } from 'vue'
+import { Notify } from 'quasar'
 import { app, auth, db } from 'boot/firebase'
 import { collection, query, where, setDoc, doc, getDocs, addDoc } from "firebase/firestore";
 
@@ -214,6 +216,17 @@ export default defineComponent({
         let users = doc.data();
         users['id'] = doc.id;
         this.event_tbl_data.push(users)
+      });
+    },
+    copyLink(text) {
+      const textCopied = location.protocol + '//' + location.host + '/' + text;
+      navigator.clipboard.writeText(textCopied).then(function () {
+        Notify.create({
+          type: 'positive',
+          message: 'Copied Link!'
+        })
+      }, function (err) {
+        console.error('Async: Could not copy text: ', err);
       });
     }
   }
