@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-center">
-    <q-card class="my-card" flat bordered>
+    <q-card class="my-card" flat bordered v-if="user.uid">
       <q-item>
 
         <q-item-section>
